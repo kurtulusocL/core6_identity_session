@@ -1,0 +1,159 @@
+﻿@model ApplicationUser
+@{
+    ViewData["Title"] = "Admin Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <span>
+            @ViewData["Title"]
+        </span>
+        <hr />
+        @if (Model != null)
+        {
+            <div class="col-md-6">
+                <a asp-controller="Account" asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-sm">Change My Password</a>
+                <a asp-controller="Account" asp-action="UpdateProfile" asp-route-id="@Model.Id" class="btn btn-outline-success btn-sm">Update Profile</a>
+            </div>
+        }
+    </div>
+    <hr />
+    @if (Model == null)
+    {
+        <dl class="row">
+            <dt class="col-sm-12">
+                There is not an any user informations.
+            </dt>
+        </dl>
+    }
+    else
+    {
+        <dl class="row">
+            <dt class="col-sm-2">
+                User ID
+            </dt>
+
+            <dd class="col-sm-10">
+                @if (Model.Id != null)
+                {
+                    @Model.Id
+                }
+                else
+                {
+                    <span>Not Id</span>
+                }
+            </dd>
+            <dt class="col-sm-2">
+                Name Surname
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.NameSurname != null)
+                {
+                    @Model.NameSurname
+                }
+                else
+                {
+                    <span>Not Name Surname</span>
+                }
+            </dd>
+            <dt class="col-sm-2">
+                Username
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.UserName != null)
+                {
+                    @Model.UserName
+                }
+                else
+                {
+                    <span>Not Username</span>
+                }
+            </dd>
+            <dt class="col-sm-2">
+                Email Address
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.Email != null)
+                {
+                    @Model.Email
+                }
+                else
+                {
+                    <span>Not Email Address</span>
+                }
+            </dd>
+            <dt class="col-sm-2">
+                Title
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.RespondTitle != null)
+                {
+                    @Model.RespondTitle
+                }
+                else
+                {
+                    <span>Not Title</span>
+                }
+            </dd>
+            <dt class="col-sm-2">
+                Phone Number
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.PhoneNumber != null)
+                {
+                    @Model.PhoneNumber
+                }
+                else
+                {
+                    <span>Not Phone Number</span>
+                }
+            </dd>
+            <dt class="col-sm-2">
+                Gender
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.Gender != null)
+                {
+                    @Model.Gender
+                }
+                else
+                {
+                    <span>Not Gender</span>
+                }
+            </dd>
+            <dt class="col-sm-2">
+                Birthdate
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.Birthdate != null)
+                {
+                    @Model.Birthdate.Value.ToShortDateString()
+                }
+                else
+                {
+                    <span>Not Birthdate</span>
+                }
+            </dd>
+            <dt class="col-sm-2">
+                Created Date
+            </dt>
+            <dd class="col-sm-10">
+                @Model.CreatedDate.ToShortDateString()
+            </dd>
+            <dt class="col-sm-2">
+                Updated Date
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.UpdatedDate != null)
+                {
+                    @Model.UpdatedDate.Value.ToShortDateString()
+                }
+                else
+                {
+                    <span>Not Updated Date</span>
+                }
+            </dd>
+        </dl>
+    }
+</div>

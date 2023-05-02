@@ -1,0 +1,54 @@
+﻿@using X.PagedList.Mvc.Core
+@using X.PagedList
+@using X.PagedList.Web.Common
+@model IPagedList<Subcategory>
+@{
+    ViewData["Title"] = "Active Subcategory List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <h3>@ViewData["Title"]</h3>
+        <br /><br />
+        <p>
+            <a asp-controller="Subcategory" asp-action="Create" class="btn btn-outline-primary btn-sm">+Add New One</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Subcategory Name</th>
+                    <th>Category</th>
+                    <th>Products</th>
+                    <th>Created At</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>
+                            @if (item.CategoryId != null)
+                            {
+                                <a asp-controller="Subcategory" asp-action="Category" asp-route-id="@item.CategoryId" class="btn btn-outline-default btn-sm">@item.Category.Name</a>
+                            }
+                        </td>
+                        <td>@item.Products.Count()</td>
+                        <td>@item.CreatedDate.ToShortDateString()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12">
+        <div class="section-row">
+            <div class="pagination">
+                <div class="pagination-info">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

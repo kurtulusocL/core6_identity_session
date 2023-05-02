@@ -1,0 +1,86 @@
+﻿@using X.PagedList.Mvc.Core
+@using X.PagedList
+@using X.PagedList.Web.Common
+@model IPagedList<ApplicationUser>
+@{
+    ViewData["Title"] = "All User List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <h3>@ViewData["Title"]</h3>
+        <br /><br />
+        <p>
+            <a asp-controller="User" asp-action="Admin" class="btn btn-outline-primary btn-sm">Admin List</a><a asp-controller="User" asp-action="Member" class="btn btn-outline-dark btn-sm">All Member List</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Profile Image</th>
+                    <th>Name Surname</th>
+                    <th>Email Address</th>
+                    <th>Title</th>
+                    <th>Gender</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (item.ProfilePhotos.Count() > 0)
+                            {
+                                @await Component.InvokeAsync("UserProfileImage",new{id=item.Id})
+                            }
+                            else
+                            {
+                                <spa>-</spa>
+                            }
+                        </td>
+                        <td>@item.NameSurname</td>
+                        <td>@item.Email</td>
+                        <td>@item.RespondTitle</td>
+                        <td>@item.Gender</td>
+                        <td>
+                            @if (item.IsConfirmed == true)
+                            {
+                                <span>Confirmed</span>
+                            }
+                            else
+                            {
+                                <span>Not Confirmed</span>
+                            }
+                            @if (item.IsDeleted == true)
+                            {
+                                <span>Deleted</span>
+                            }
+                            else
+                            {
+                                <span>Not Deleted</span>
+                            }
+                        </td>
+                        <td>@item.CreatedDate.ToShortDateString()</td>
+                        <td>
+                            <a asp-controller="Account" asp-action="RoleAssign" asp-route-id="@item.Id" class="btn btn-dark btn-sm">Set Role</a>
+                            <a asp-controller="User" asp-action="Detail" asp-route-id="@item.Id" class="btn btn-info btn-sm">Detail</a>
+                            <a asp-controller="User" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12">
+        <div class="section-row">
+            <div class="pagination">
+                <div class="pagination-info">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

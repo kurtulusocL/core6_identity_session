@@ -1,0 +1,54 @@
+﻿@model Picture
+@{
+    ViewData["Title"] = "Add New Image for Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <h3>@ViewData["Title"]</h3>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <form asp-action="CreateImage" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <span>Image Title</span>
+                        <input asp-for="Title" name="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <span>Upload Image(s)</span>
+                        <input name="images" type="file" multiple="true" class="form-control" />
+                        @*<span asp-validation-for="ImageUrl" class="text-danger"></span>*@
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <input type="submit" value="Add Image" class="btn btn-primary" />
+                        <input type="hidden" asp-for="ProductId" />
+                        <input type="hidden" asp-for="ApplicationUserId" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            @if (TempData["success"] != null)
+            {
+                <h3 style="color:black">@TempData["success"]</h3>
+            }
+            @if (TempData["bigError"] != null)
+            {
+                <h3 style="color:black">@TempData["bigError"]</h3>
+            }
+            else
+            {
+                <h3 style="color:black">@TempData["error"]</h3>
+            }
+        </div>
+    </div>
+    <div>
+        <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
+    </div>
+</div>

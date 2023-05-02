@@ -1,0 +1,84 @@
+﻿@using X.PagedList.Mvc.Core
+@using X.PagedList
+@using X.PagedList.Web.Common
+@model IPagedList<Product>
+@{
+    ViewData["Title"] = "Product List by User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <h3>@ViewData["Title"]</h3>
+        <br /><br />
+        <p>
+            <a asp-controller="Product" asp-action="Create" class="btn btn-outline-primary btn-sm">+Add New One</a> <a asp-controller="Product" asp-action="Index" class="btn btn-outline-dark btn-sm">Product List</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Stock</th>
+                    <th>Price</th>
+                    <th>User</th>
+                    <th>Category</th>
+                    <th>Hit</th>
+                    <th>Like</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.UnitInStock</td>
+                        <td>@item.Price</td>
+                        <td>
+                            @if (item.ApplicationUserId != null)
+                            {
+                                @item.ApplicationUser.NameSurname
+                            }
+                        </td>
+                        <td>
+                            <a asp-controller="Product" asp-action="Category" asp-route-id="@item.CategoryId">@item.Category.Name</a>
+                        </td>
+                        <td>
+                            @if (item.Hit != null)
+                            {
+                                @item.Hit.Value.ToString()
+                            }
+                        </td>
+                        <td>
+                            @if (item.Like != null)
+                            {
+                                <span>Like: @item.Like.Value.ToString() - </span>
+                            }
+                            @if (item.Dislike != null)
+                            {
+                                <span>Dislike: @item.Dislike.Value.ToString()</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-controller="Product" asp-action="CreateComment" asp-route-id="@item.Id" class="btn btn-primary btn-sm">+ Comment</a>
+                            <a asp-controller="Product" asp-action="CreateOrder" asp-route-id="@item.Id" class="btn btn-default btn-sm">+ Order</a>
+                            <a asp-controller="Product" asp-action="CreateImage" asp-route-id="@item.Id" class="btn btn-dark btn-sm">+ Image</a>
+                            <a asp-controller="Product" asp-action="Detail" asp-route-id="@item.Id" class="btn btn-info btn-sm">Detail</a>
+                            <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success btn-sm">Edit</a>
+                            <a asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12">
+        <div class="section-row">
+            <div class="pagination">
+                <div class="pagination-info">
+                    @Html.PagedListPager(Model, page => Url.Action("UserProduct", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

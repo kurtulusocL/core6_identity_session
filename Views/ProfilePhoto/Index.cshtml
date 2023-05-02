@@ -1,0 +1,60 @@
+﻿@using X.PagedList.Mvc.Core
+@using X.PagedList
+@using X.PagedList.Web.Common
+@model IPagedList<ProfilePhoto>
+@{
+    ViewData["Title"] = "Profile Image List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <h3>@ViewData["Title"]</h3>
+        <br /><br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Profile Image</th>
+                    <th>Name Surname</th>
+                    <th>Email Address</th>
+                    <th>Created At</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Image</td>
+                        <td>
+                            @if (item.ApplicationUserId != null)
+                            {
+                                <a asp-controller="ProfilePhoto" action="UserImage" asp-route-id="@item.ApplicationUserId" target="_blank">@item.ApplicationUser.NameSurname</a>
+                            }
+                        </td>
+                        <td>
+                            @if (item.ApplicationUserId != null)
+                            {
+                                @item.ApplicationUser.Email
+                            }
+                        </td>
+                        <td>@item.CreatedDate.ToShortDateString()</td>
+                        <td>
+                            <a asp-controller="ProfilePhoto" asp-action="Detail" asp-route-id="@item.Id" class="btn btn-info btn-sm">Detail</a>
+                            <a asp-controller="ProfilePhoto" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12">
+        <div class="section-row">
+            <div class="pagination">
+                <div class="pagination-info">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

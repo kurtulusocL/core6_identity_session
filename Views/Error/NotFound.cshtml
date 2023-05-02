@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Not Found";
+    ViewBag.Desc = "Page is not avaible";
+    ViewBag.ErrorCode = "404";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-danger">@ViewBag.ErrorCode.</h1>
+<h2 class="text-danger">@ViewBag.Desc</h2>
+
+<h3>@TempData["404"]</h3>
+<p>
+    <strong>@ViewData["Title"]</strong>
+   
+</p>

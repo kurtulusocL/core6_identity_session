@@ -1,0 +1,58 @@
+﻿@model Category
+@{
+    ViewData["Title"] = "Category Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>@ViewData["Title"]</h3>
+<br /><br />
+<div class="container">
+    <dl class="row">
+        <dt class="col-sm-2">
+            Updated Date
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.UpdatedDate != null)
+            {
+                @Model.UpdatedDate.Value.ToShortDateString()
+            }
+            else
+            {
+                <span>Not Yet</span>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            Deleted Date
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.DeletedDate != null)
+            {
+                @Model.DeletedDate.Value.ToShortDateString()
+            }
+            else
+            {
+                <span>Not Yet</span>
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (Model.IsConfirmed == true)
+    {
+        <a asp-controller="Category" asp-action="DeActive" asp-route-id="@Model.Id" class="btn btn-outline-warning btn-sm">Set Suspend</a>
+    }
+    else
+    {
+        <a asp-controller="Category" asp-action="SetActive" asp-route-id="@Model.Id" class="btn btn-outline-warning btn-sm">Set Online</a>
+    }
+    @if (Model.IsDeleted==true)
+    {
+        <a asp-controller="Category" asp-action="NotDeleted" asp-route-id="@Model.Id" class="btn btn-outline-warning btn-sm">Set Not Deleted</a>
+    }
+    else
+    {
+        <a asp-controller="Category" asp-action="Deleted" asp-route-id="@Model.Id" class="btn btn-outline-warning btn-sm">Set Deleted</a>
+    }    
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-success btn-sm">Edit</a> |
+    <a asp-action="Index" class="btn btn-outline-dark btn-sm">Back to List</a>
+</div>

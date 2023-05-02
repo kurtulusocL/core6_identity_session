@@ -1,0 +1,76 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "Update Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <h3>@ViewData["Title"]</h3>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <form asp-action="Edit" method="post">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <div class="col-lg-3">
+                            <label class="control-label" for="inputSuccess">Category List</label>
+                        </div>
+                        <div class="col-lg-9">
+                            <select class="form-control m-bot15" name="CategoryId">
+                                <option>-- Select One Category --</option>
+                                @foreach (var item in ViewBag.Categories)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span>Product Name</span>
+                        <input asp-for="Name" name="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <span>Description</span>
+                        <input asp-for="Desc" name="Desc" class="form-control" />
+                        <span asp-validation-for="Desc" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <span>Product Stock</span>
+                        <input asp-for="UnitInStock" name="UnitInStock" type="number" class="form-control" />
+                        <span asp-validation-for="UnitInStock" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <span>Product Price</span>
+                        <input asp-for="Price" name="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <input type="submit" value="Update Product" class="btn btn-primary" />
+                        <input type="hidden" asp-for="CategoryId" />
+                        <input type="hidden" asp-for="ApplicationUserId" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            @if (TempData["success"] != null)
+            {
+                <h3 style="color:black">@TempData["success"]</h3>
+            }
+            else
+            {
+                <h3 style="color:black">@TempData["error"]</h3>
+            }
+        </div>
+    </div>
+    <div>
+        <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
+    </div>
+</div>

@@ -1,0 +1,77 @@
+﻿@using X.PagedList.Mvc.Core
+@using X.PagedList
+@using X.PagedList.Web.Common
+@using System.Web
+@model IPagedList<Comment>
+@{
+    ViewData["Title"] = "Comment List by User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <h3>@ViewData["Title"]</h3>
+        <br /><br />
+        <p>
+            <a asp-controller="Comment" asp-action="Index" class="btn btn-outline-dark btn-sm">Comment List</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name Surname</th>
+                    <th>Email Address</th>
+                    <th>Subject</th>
+                    <th>Product</th>
+                    <th>User</th>
+                    <th>Created At</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.NameSurname</td>
+                        <td>@item.Email</td>
+                        <td>
+                            @if (item.Subject.Length >= 55)
+                            {
+                                @Html.Raw(HttpUtility.HtmlDecode(More.SafeSubstring(item.Subject,55) + " ..."))
+                            }
+                            else
+                            {
+                                @Html.Raw(HttpUtility.HtmlDecode(More.SafeSubstring(item.Subject,55)))
+                            }
+                        </td>
+                        <td>
+                            @if (item.ProductId != null)
+                            {
+                                <a asp-controller="Comment" action="Product" asp-route-id="@item.ProductId" target="_blank">@item.Product.Name</a>
+                            }
+                        </td>
+                        <td>
+                            @if (item.ApplicationUserId != null)
+                            {
+                                @item.ApplicationUser.NameSurname
+                            }
+                        </td>
+                        <td>@item.CreatedDate.ToShortDateString()</td>
+                        <td>
+                            <a asp-controller="Comment" asp-action="Detail" asp-route-id="@item.Id" class="btn btn-info btn-sm">Detail</a>
+                            <a asp-controller="Comment" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12">
+        <div class="section-row">
+            <div class="pagination">
+                <div class="pagination-info">
+                    @Html.PagedListPager(Model, page => Url.Action("UserComment", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
